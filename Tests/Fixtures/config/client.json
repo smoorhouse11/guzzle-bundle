@@ -102,6 +102,27 @@
                     "required":"true"
                 }
             }
+        },
+        "GetPrimitiveString":{
+            "httpMethod":"GET",
+            "uri":"primitiveString",
+            "summary":"Get a string",
+            "responseType":"primitive",
+            "responseClass":"string"
+        },
+        "GetPrimitiveInteger":{
+            "httpMethod":"GET",
+            "uri":"primitiveInteger",
+            "summary":"Get an integer",
+            "responseType":"primitive",
+            "responseClass":"integer"
+        },
+        "GetPrimitiveArray":{
+            "httpMethod":"GET",
+            "uri":"primitiveString",
+            "summary":"Get an array of strings",
+            "responseType":"primitive",
+            "responseClass":"array"
         }
     }
 }

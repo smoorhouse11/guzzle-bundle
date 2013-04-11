@@ -176,6 +176,40 @@ class JMSSerializerResponseTest extends TestCase
         $this->assertEquals('Qux', $people[1]->familyName);
     }
 
+    public function testGetPrimitiveStringResponseWithSerializer()
+    {
+        $client = self::getClient('JMSSerializerBundle');
+        $command = $client->getCommand('GetPrimitiveString');
+        self::$mock->addResponse(Response::fromMessage(self::primitiveStringResponse()));
+        $response = $client->execute($command);
+
+        $this->assertEquals('foostring', $response);
+    }
+
+    public function testGetPrimitiveIntegerResponseWithSerializer()
+    {
+        $client = self::getClient('JMSSerializerBundle');
+        $command = $client->getCommand('GetPrimitiveInteger');
+        self::$mock->addResponse(Response::fromMessage(self::primitiveIntegerResponse()));
+        $response = $client->execute($command);
+
+        $this->assertEquals(242, $response);
+    }
+
+    public function testGetPrimitiveArrayResponseWithSerializer()
+    {
+        $client = self::getClient('JMSSerializerBundle');
+        $command = $client->getCommand('GetPrimitiveArray');
+        self::$mock->addResponse(Response::fromMessage(self::primitiveArrayResponse()));
+        $response = $client->execute($command);
+
+        $this->assertTrue(is_array($response));
+        $this->assertCount(2, $response);
+
+        $this->assertEquals('foo', $response[0]);
+        $this->assertEquals('bar', $response[1]);
+    }
+
     /**
      * @var Client[]
      */
@@ -261,6 +295,45 @@ Server: Test
 Content-Type: application/foo
 
 ID = 1; Name = Foo; Family name = Bar.
+EOT;
+    }
+
+    protected function primitiveStringResponse()
+    {
+        return <<<EOT
+HTTP/1.1 200 OK
+Date: Sun, 1 Jan 2012 00:00:00 GMT
+Connection: close
+Server: Test
+Content-Type: application/json
+
+"foostring"
+EOT;
+    }
+
+    protected function primitiveIntegerResponse()
+    {
+        return <<<EOT
+HTTP/1.1 200 OK
+Date: Sun, 1 Jan 2012 00:00:00 GMT
+Connection: close
+Server: Test
+Content-Type: application/json
+
+242
+EOT;
+    }
+
+    protected function primitiveArrayResponse()
+    {
+        return <<<EOT
+HTTP/1.1 200 OK
+Date: Sun, 1 Jan 2012 00:00:00 GMT
+Connection: close
+Server: Test
+Content-Type: application/json
+
+["foo","bar"]
 EOT;
     }
 }

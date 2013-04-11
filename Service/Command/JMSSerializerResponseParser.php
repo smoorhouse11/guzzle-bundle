@@ -75,7 +75,8 @@ class JMSSerializerResponseParser extends DefaultResponseParser
             }
 
             if (null !== $serializerContentType &&
-                OperationInterface::TYPE_CLASS === $command->getOperation()->getResponseType()
+                (OperationInterface::TYPE_CLASS === $command->getOperation()->getResponseType() ||
+                 OperationInterface::TYPE_PRIMITIVE === $command->getOperation()->getResponseType())
             ) {
                 return $this->serializer->deserialize(
                     $response->getBody(),
