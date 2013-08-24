@@ -1,7 +1,7 @@
 GuzzleBundle
 ============
 
-[![Build Status](https://secure.travis-ci.org/misd-service-development/guzzle-bundle.png?branch=master)](http://travis-ci.org/misd-service-development/guzzle-bundle)
+[![Build Status](https://travis-ci.org/misd-service-development/guzzle-bundle.png?branch=master)](http://travis-ci.org/misd-service-development/guzzle-bundle)
 
 This bundle integrates [Guzzle](http://guzzlephp.org/) into your Symfony2 application, which takes the pain out of sending HTTP requests and the redundancy out of creating web service clients.
 
@@ -11,6 +11,7 @@ Authors
 -------
 
 * Chris Wilkinson <chris.wilkinson@admin.cam.ac.uk>
+* [The Symfony and Guzzle communities](https://github.com/misd-service-development/guzzle-bundle/contributors)
 
 Documentation
 -------------

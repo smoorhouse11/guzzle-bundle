@@ -11,6 +11,7 @@
 
 namespace Misd\GuzzleBundle\Tests\Functional;
 
+use Guzzle\Common\Version;
 use Guzzle\Http\Message\Response;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Service\Client;
@@ -92,6 +93,10 @@ class JMSSerializerResponseTest extends TestCase
         $command = $client->getCommand('GetPersonClass', array('id' => 1));
         self::$mock->addResponse(Response::fromMessage(self::xmlResponse()));
 
+        if (version_compare(Version::VERSION, '3.3.0', '>=')) {
+            $this->setExpectedException('Guzzle\Service\Exception\ResponseClassException');
+        }
+
         $this->assertInstanceOf('SimpleXMLElement', $client->execute($command));
     }
 
@@ -114,6 +119,10 @@ class JMSSerializerResponseTest extends TestCase
         $command = $client->getCommand('GetPersonClass', array('id' => 1));
         self::$mock->addResponse(Response::fromMessage(self::jsonResponse()));
 
+        if (version_compare(Version::VERSION, '3.3.0', '>=')) {
+            $this->setExpectedException('Guzzle\Service\Exception\ResponseClassException');
+        }
+
         $this->assertTrue(is_array($client->execute($command)));
     }
 
@@ -123,6 +132,10 @@ class JMSSerializerResponseTest extends TestCase
         $command = $client->getCommand('GetPersonClass', array('id' => 1));
         self::$mock->addResponse(Response::fromMessage(self::unknownResponse()));
 
+        if (version_compare(Version::VERSION, '3.3.0', '>=')) {
+            $this->setExpectedException('Guzzle\Service\Exception\ResponseClassException');
+        }
+
         $this->assertInstanceOf('Guzzle\Http\Message\Response', $client->execute($command));
     }
 
@@ -131,6 +144,10 @@ class JMSSerializerResponseTest extends TestCase
         $client = self::getClient('Basic');
         $command = $client->getCommand('GetPersonClass', array('id' => 1));
         self::$mock->addResponse(Response::fromMessage(self::unknownResponse()));
+
+        if (version_compare(Version::VERSION, '3.3.0', '>=')) {
+            $this->setExpectedException('Guzzle\Service\Exception\ResponseClassException');
+        }
 
         $this->assertInstanceOf('Guzzle\Http\Message\Response', $client->execute($command));
     }
@@ -151,6 +168,10 @@ class JMSSerializerResponseTest extends TestCase
         $client = self::getClient('Basic');
         $command = $client->getCommand('GetPersonInvalidClass', array('id' => 1));
         self::$mock->addResponse(Response::fromMessage(self::xmlResponse()));
+
+        if (version_compare(Version::VERSION, '3.3.0', '>=')) {
+            $this->setExpectedException('Guzzle\Service\Exception\ResponseClassException');
+        }
 
         $this->assertInstanceOf('SimpleXMLElement', $client->execute($command));
     }
@@ -184,16 +205,6 @@ class JMSSerializerResponseTest extends TestCase
         $response = $client->execute($command);
 
         $this->assertEquals('foostring', $response);
-    }
-
-    public function testGetPrimitiveIntegerResponseWithSerializer()
-    {
-        $client = self::getClient('JMSSerializerBundle');
-        $command = $client->getCommand('GetPrimitiveInteger');
-        self::$mock->addResponse(Response::fromMessage(self::primitiveIntegerResponse()));
-        $response = $client->execute($command);
-
-        $this->assertEquals(242, $response);
     }
 
     public function testGetPrimitiveArrayResponseWithSerializer()
@@ -337,3 +348,4 @@ Content-Type: application/json
 EOT;
     }
 }
+
